@@ -9,6 +9,28 @@
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
   },
+  "tabBar": {
+    "color": "#000",
+    "selectedColor": "#98E165",
+    "backgroundColor": "#fff",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "Home"
+    }, {
+      "pagePath": "pages/logs/logs",
+      "text": "Log"
+    }]
+  },
+  "usingComponents": {
+    "mp-dialog": "/miniprogram_dist/dialog/dialog",
+    "mp-form-page": "/miniprogram_dist/form-page/form-page",
+    "mp-form": "/miniprogram_dist/form/form",
+    "mp-toptips": "/miniprogram_dist/toptips/toptips",
+    "mp-cells": "/miniprogram_dist/cells/cells",
+    "mp-cell": "/miniprogram_dist/cell/cell",
+    "mp-checkbox": "/miniprogram_dist/checkbox/checkbox",
+    "mp-checkbox-group": "/miniprogram_dist/checkbox-group/checkbox-group"
+  },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }
