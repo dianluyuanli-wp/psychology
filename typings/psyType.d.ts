@@ -34,3 +34,12 @@ interface ruleObj {
     name: string,
     required: boolean
 }
+
+interface openIdObj {
+    openid: string
+}
+
+interface cloundFunResObj {
+    result?: openIdObj,
+    errMes: string
+}

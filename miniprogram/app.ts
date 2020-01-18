@@ -2,10 +2,27 @@
 App<IAppOption>({
   globalData: {},
   onLaunch() {
+    //  云函数初始化
+    wx.cloud.init({
+      env: 'test-psy-qktuk'
+    });
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    wx.setStorageSync('logs', logs);
+
+    const openId = wx.getStorageSync('openId') || '';
+    if (!openId) {
+      wx.cloud.callFunction({
+        name:'getOpenId',
+        complete: (res: any) => {
+          const openid = res.result.openid;
+          console.log('111openid--', res.result.openid);
+          wx.setStorageSync('openId', openid);
+        }
+      })
+    }
+    console.log(openId, 'dddd');
 
     // 登录
     wx.login({

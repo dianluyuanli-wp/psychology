@@ -1,6 +1,10 @@
 // index.ts
 // 获取应用实例
-const app = getApp<IAppOption>()
+const app = getApp<IAppOption>();
+
+const db = wx.cloud.database({
+  env: 'test-psy-qktuk'
+});
 
 import { reqGet } from '../../utils/request';
 
@@ -204,7 +208,7 @@ Page({
       });
   },
   submitForm() {
-      this.selectComponent('#form').validate((valid: boolean, errors: Array<validateInfo>) => {
+      this.selectComponent('#form').validate(async (valid: boolean, errors: Array<validateInfo>) => {
           console.log('valid', valid, errors)
           if (!valid) {
               const firstError = Object.keys(errors);
@@ -212,12 +216,18 @@ Page({
                   this.setData({
                       error: errors[parseInt(firstError[0])].message
                   })
-
               }
           } else {
               wx.showToast({
-                  title: '校验通过'
-              })
+                title: '校验通过'
+              });
+              const res = await db.collection('interviewee').add({
+                data: {
+                  tel: 123,
+                  date: '19-12-29',
+                }
+              });
+              console.log(res, '提交数据库');
           }
       })
   }
