@@ -1,21 +1,28 @@
-/**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+.page-section {
+    width: 750rpx;
 }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.con-flex {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 12rpx;
 }
 
-.userinfo-nickname {
-  color: #aaa;
+.cl-img {
+    width: 200rpx;
+    height: 300rpx;
 }
 
-.usermotto {
-  margin-top: 200px;
+.cl-wrapper {
+    margin-top: 10rpx;
+}
+
+.swiper-item {
+    width: 750rpx;
+}
+
+.sw-img {
+    width: 100%;
 }

@@ -1,131 +1,59 @@
-// index.ts
-// 获取应用实例
-const app = getApp<IAppOption>();
-
-const db = wx.cloud.database({
-  env: 'test-psy-qktuk'
-});
-
-//  import { reqGet } from '../../utils/request';
-
 Page({
-  data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-
-    showTopTips: false,
-
-    date: "2016-09-01",
-    time: "12:01",
-    saySome: '',
-
-    accounts: ["微信号", "QQ", "Email"],
-    accountIndex: 0,
-
-    formData: {
+    // onShareAppMessage() {
+    //   return {
+    //     title: 'swiper',
+    //     path: 'page/component/pages/swiper/swiper'
+    //   }
+    // },
+  
+    data: {
+      background: [{ src: 'http://cms-bucket.ws.126.net/2020/0123/564125bej00q4jo8e002tc000go008cc.jpg?imageView&thumbnail=600y300'},
+        { src: 'http://cms-bucket.ws.126.net/2020/0119/f543f553j00q4cbge002uc000go008cc.jpg?imageView&thumbnail=600y300'}, {
+          src: 'http://cms-bucket.ws.126.net/2020/0123/f25d19daj00q4ji4k001uc000go008cc.jpg?imageView&thumbnail=600y300'
+        }],
+      couList: [{
+        name: 'wang',
+        detail: '北京地坛医院',
+        img: 'https://bkimg.cdn.bcebos.com/pic/77094b36acaf2edd6474ddbc821001e9380193da?x-bce-process=image/resize,m_fill,w_360,h_280,align_50'
+      }, {
+        name: 'zhang',
+        detail: '我也不知道该怎么变了',
+        img: 'https://bkimg.cdn.bcebos.com/pic/1c950a7b02087bf4e7c348e5fed3572c11dfcf8b?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1'
+      }],
+      indicatorDots: true,
+      vertical: false,
+      autoplay: false,
+      interval: 2000,
+      duration: 500
     },
-    rules: [
-      {
-        name: 'mobile',
-        rules: [{required: true, message: 'mobile必填'}, {mobile: true, message: 'mobile格式不对'}],
-      }
-    ]
-  },
-  // 事件处理函数
-  bindViewTap() {
-    wx.navigateTo({
-      url: '../logs/logs',
-    })
-  },
-  onLoad() {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true,
+
+    content(event: DomEvent) {
+      wx.navigateTo({
+        url: '../detail/detail' + '?name=' + event.currentTarget.dataset.name
       })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true,
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true,
-          })
-        },
+    },
+  
+    changeIndicatorDots() {
+      this.setData({
+        indicatorDots: !this.data.indicatorDots
+      })
+    },
+  
+    changeAutoplay() {
+      this.setData({
+        autoplay: !this.data.autoplay
+      })
+    },
+  
+    intervalChange(e: DomEvent) {
+      this.setData({
+        interval: e.detail.value
+      })
+    },
+  
+    durationChange(e: DomEvent) {
+      this.setData({
+        duration: e.detail.value
       })
     }
-  },
-  getUserInfo(e: any) {
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true,
-    })
-  },
-  bindDateChange: function (e: DomEvent) {
-      this.setData({
-          date: e.detail.value,
-          [`formData.date`]: e.detail.value
-      })
-  },
-  bindTextChange: function (e: DomEvent) {
-    this.setData({
-      saySome: e.detail.value,
-      [`formData.saySome`]: e.detail.value
-    })
-  },
-  formInputChange: function(e: DomEvent) {
-      const {field} = e.currentTarget.dataset;
-      this.setData({
-          [`formData.${field}`]: e.detail.value
-      })
-  },
-  bindTimeChange: async function (e: DomEvent) {
-      this.setData({
-          time: e.detail.value,
-          [`formData.time`]: e.detail.value
-      })
-  },
-  submitForm() {
-      this.selectComponent('#form').validate(async (valid: boolean, errors: Array<validateInfo>) => {
-          if (!valid) {
-              const firstError = Object.keys(errors);
-              if (firstError.length) {
-                  this.setData({
-                      error: errors[parseInt(firstError[0])].message
-                  })
-              }
-          } else {
-              wx.showToast({
-                title: '校验通过'
-              });
-              const defaultInfo = {
-                date: '2020-12-08',
-                time: '12:10',
-                saySome: 'nothing'
-              };
-              await db.collection('interviewee').add({
-                data: {
-                  formData: Object.assign(defaultInfo, this.data.formData),
-                  userInfo: this.data.userInfo,
-                  openId: app.globalData.openId,
-                  status: 'apply'
-                }
-              });
-              console.log(this.data.formData, 'open');
-          }
-      })
-  }
-})
+  })

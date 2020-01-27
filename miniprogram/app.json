@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/user/user",
+    "pages/detail/detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -15,10 +16,10 @@
     "backgroundColor": "#fff",
     "list": [{
       "pagePath": "pages/index/index",
-      "text": "Home"
+      "text": "咨询"
     }, {
-      "pagePath": "pages/logs/logs",
-      "text": "Log"
+      "pagePath": "pages/user/user",
+      "text": "我的"
     }]
   },
   "usingComponents": {

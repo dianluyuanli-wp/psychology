@@ -20,7 +20,8 @@ interface detailObj {
 }
 
 interface datasetT {
-    field?: string
+    field?: string,
+    [any: string]: any
 }
 
 interface validateInfo {
