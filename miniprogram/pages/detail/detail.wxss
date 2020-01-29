@@ -2,11 +2,13 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .con-flex {
     margin-right: 12rpx;
-    width: 300rpx;
+    margin-bottom: 12rpx;
+    width: 230rpx;
     height: 100rpx;
     background-color: chartreuse;
     color: black;

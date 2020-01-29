@@ -3,6 +3,8 @@ const app = getApp<IAppOption>();
 const db = wx.cloud.database({
   env: 'test-psy-qktuk'
 });
+const _ = db.command;
+import { getYMD } from '../../utils/util';
 
 Page({
     data: {
@@ -43,7 +45,7 @@ Page({
       url: '../logs/logs',
     })
   },
-  async onLoad() {
+  onLoad() {
     let pages = getCurrentPages();
     let currPage = null;
     // console.log(pages) 的到一个数组
@@ -56,20 +58,22 @@ Page({
     this.setData({
         counselor: route
     });
-    const res = await db.collection('period').where({
-      counselorId: route
-    }).get();
-    this.setData({
-      timeList: res.data.map(item => {
-        const { date, startTime, endTime, counselorId } = item;
-        return {
-          date,
-          time: startTime + '--' + endTime,
-          counselorId
-        }
-      }) as Array<any>
+    db.collection('period').where({
+      counselorId: route,
+      date: _.gte(getYMD(new Date()))
+    }).orderBy('date', 'asc').limit(7).get().then(res => {
+      this.setData({
+        timeList: res.data.map(item => {
+          const { date, startTime, endTime, counselorId, _id } = item;
+          return {
+            date,
+            time: startTime + '--' + endTime,
+            counselorId,
+            _id
+          }
+        }) as Array<any>
+      });
     });
-    console.log(res);
   },
   getUserInfo(e: any) {
     app.globalData.userInfo = e.detail.userInfo

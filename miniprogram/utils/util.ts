@@ -13,6 +13,10 @@ export const formatTime = (date: Date) => {
   )
 }
 
+export const getYMD = (date: Date) => {
+  return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('0' + date.getDate().toString()).slice(-2);
+}
+
 const formatNumber = (n: number) => {
   const s = n.toString()
   return s[1] ? s : '0' + s
