@@ -1,52 +1,19 @@
 <!--index.wxml-->
 <view class="container">
-  <!-- <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view> -->
-  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
-  <view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
-      <view class="page__hd">
-          <view class="page__title">预约申请</view>
-          <view class="page__desc">表单输入</view>
-      </view>
-      <view class="page__bd">
-          <mp-form id="form" rules="{{rules}}" models="{{formData}}">
-              <mp-cells title="表单">
-                  <mp-cell prop="mobile" title="手机号" ext-class=" weui-cell_vcode">
-                      <input bindinput="formInputChange" data-field="mobile" class="weui-input" placeholder="请输入手机号"/>
-                  </mp-cell>
-                  <mp-cell prop="date" title="预约日期" ext-class="">
-                      <picker data-field="date" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
-                          <view class="weui-input">{{date}}</view>
-                      </picker>
-                  </mp-cell>
-                  <mp-cell prop="date" title="预约时间" ext-class="">
-                      <picker mode="time" value="{{time}}" start="00:00" end="23:59" bindchange="bindTimeChange">
-                          <view class="weui-input">{{time}}</view>
-                      </picker>
-                  </mp-cell>
-              </mp-cells>
-          </mp-form>
-
-          <view class="weui-cells__title">想对我说点什么</view>
-          <view class="weui-cells weui-cells_after-title">
-              <view class="weui-cell">
-                  <view class="weui-cell__bd">
-                      <textarea class="weui-textarea" bindinput="bindTextChange" data-field="saySome" maxlength="200" placeholder="请输入文本" style="height: 4.3em" />
-                      <view class="weui-textarea-counter">{{saySome.length}}/200</view>
-                  </view>
-              </view>
-          </view>
-          <view class="weui-btn-area">
-              <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
-          </view>
-      </view>
+    <view class="tabTitle">
+      <view class='tabCon'>咨询师</view>
+      <view class='tabCon'>日期</view>
+      <view class='tabCon'>时间</view>
+      <view class='tabCon'>状态</view>
+      <view class='tabCon'>操作</view>
+    </view>
+    <view class="contentWrapper">
+        <view class='contentList' wx:key="index" wx:for='{{orderList}}'>
+            <view class='item-content'>{{item.counselorName}}</view>
+            <view class='item-content'>{{item.date}}</view>
+            <view class='item-content'>{{item.time}}</view>
+            <view class='item-content-last'>{{item.status}}</view>
+            <view class="item" bindtap="cancel" data-id="{{item._id}}" data-index="{{index}}">取消</view>
+        </view>
     </view>
 </view>

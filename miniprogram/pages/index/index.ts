@@ -35,6 +35,7 @@ Page({
     },
 
     onLoad() {
+      console.log('index');
       if (app.globalData.userInfo) {
         this.setData({
           userInfo: app.globalData.userInfo,
