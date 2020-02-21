@@ -11,7 +11,7 @@
   "license": "",
   "dependencies": {
     "miniprogram-api-typings": "^2.8.3-1",
-    "typescript": "^3.3.3333",
+    "typescript": "^3.8.1-rc",
     "weui-miniprogram": "^0.2.1"
   }
 }

@@ -23,10 +23,10 @@ Page({
       ['orderList[' + index + '].status']: 'cancel'
     })
   },
-  onLoad() {
+  async loadData() {
     db.collection('interviewee').where({
       openId: app.globalData.openId,
-    }).orderBy('date', 'desc').limit(10).get().then(res => {
+    }).orderBy('formData.date', 'desc').limit(10).get().then(res => {
       this.setData({
         orderList: res.data.map(item => {
           const { status, formData, counselorId, _id, counselorName } = item;
@@ -41,6 +41,13 @@ Page({
         }) as Array<any>
       });
     });
+  },
+  async onPullDownRefresh() {
+    await this.loadData();
+    wx.stopPullDownRefresh() //停止下拉刷新
+  },
+  onLoad() {
+    this.loadData();
   },
 })
 
