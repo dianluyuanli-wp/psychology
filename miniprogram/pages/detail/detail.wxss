@@ -17,3 +17,18 @@
 .heighLight {
     background-color: blueviolet;
 }
+
+.canNotBook {
+    background-color: gray;
+}
+
+.p-wrapper {
+    position: relative;
+}
+
+.noBook {
+    position: absolute;
+    font-size: 29rpx;
+    top: 33rpx;
+    left: 55rpx;
+}

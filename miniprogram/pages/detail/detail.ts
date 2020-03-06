@@ -60,15 +60,17 @@ Page({
     });
     db.collection('period').where({
       counselorId: route,
-      date: _.gte(getYMD(new Date()))
+      date: _.gte(getYMD(new Date())),
+      status: 'on'
     }).orderBy('date', 'asc').limit(7).get().then(res => {
       this.setData({
         timeList: res.data.map(item => {
-          const { date, startTime, endTime, counselorId, _id } = item;
+          const { date, startTime, endTime, counselorId, _id, count } = item;
           return {
             date,
             time: startTime + '--' + endTime,
             counselorId,
+            count,
             _id
           }
         }) as Array<any>
@@ -131,13 +133,13 @@ Page({
               };
               const { date, time, _id, counselorId } = this.data.timeList[this.data.heighLightIndex];
               //    避免重复预约
-              const res = await db.collection('interviewee').where({
-                openId: app.globalData.openId,
-                _id
+              const res = await db.collection('period').where({
+                _id,
+                count: 1
               }).count();
-              if (res.total) {
+              if (res.total === 0) {
                 this.setData({
-                    error: '该时段您已经预约过'
+                    error: '该时段不可预约'
                 })
                 return;
               }
@@ -152,6 +154,7 @@ Page({
                   periodId: _id
                 }
               });
+              await db.collection('period').doc(_id).update({ data: { count: 0 }});
               wx.showToast({
                 title: '提交成功'
               });
