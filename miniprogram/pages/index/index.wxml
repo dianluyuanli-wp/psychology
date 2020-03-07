@@ -6,7 +6,7 @@
         <block wx:for="{{background}}" wx:key="*this">
           <swiper-item>
             <view class="swiper-item {{item}}">
-              <image class="sw-img" mode="aspectFit" src="{{item.src}}"></image>
+              <image class="sw-img" mode="scaleToFill" src="{{item.src}}"></image>
             </view>
           </swiper-item>
         </block>
@@ -15,9 +15,9 @@
     <view class="cl-wrapper">
         <view class='con-flex font-item' data-name="{{item.name}}" wx:key="index" bindtap="content" wx:for='{{couList}}'>
           <image src="{{item.img}}" class="cl-img"></image>
-          <view >
+          <view class='cl-single-wrapper'>
             <view class='cl-name'>{{item.name}}</view>
-            <view class='item-content'>{{item.detail}}</view>
+            <view class='cl-item-content'>{{item.detail}}</view>
           </view>
         </view>
     </view>

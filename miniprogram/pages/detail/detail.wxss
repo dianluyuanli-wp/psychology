@@ -32,3 +32,36 @@
     top: 33rpx;
     left: 55rpx;
 }
+
+.bookWrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: top;
+    flex-wrap: wrap;
+}
+
+.singDayBook {
+    /* margin: 0 15rpx; */
+    text-align: center;
+    font-size: 25rpx;
+}
+
+.sdcWrapper {
+    position: relative;
+    padding: 5rpx;
+    border-radius: 20rpx;
+    border: 1rpx solid rgb(0, 190, 10);
+    background-color: rgba(0, 190, 10, 0.2);
+}
+
+.sdDevider {
+    position: absolute;
+    top: 22rpx;
+    left: 28rpx;
+}
+
+.openTime {
+    font-size: 35rpx;
+    font-weight: bold;
+    padding-left: 40rpx;
+}

@@ -1,11 +1,23 @@
 <view >
     <view >目标咨询师：{{counselor}}</view>
-    <view class="de-wrapper">
-        <view bindtap="change" wx:key="index" class="con-flex {{index === heighLightIndex ? 'heighLight' : ''}} {{item.count === 1 ? '' : 'canNotBook'}}" data-index="{{index}}" bindtap="check" wx:for='{{timeList}}'>
+    <!-- <view class="de-wrapper">
+        <view wx:key="index" class="con-flex {{index === heighLightIndex ? 'heighLight' : ''}} {{item.count === 1 ? '' : 'canNotBook'}}" data-index="{{index}}" bindtap="check" wx:for='{{timeList}}'>
             <view class="p-wrapper">
                 <view class='cl-name'>{{item.date}}</view>
                 <view class='noBook' v-if="item.count === 0">不可预约</view>
                 <view class='item-content'>{{item.time}}</view>
+            </view>
+        </view>
+    </view> -->
+    <view class="openTime">开放时段</view>
+    <view class="bookWrapper">
+        <view class="singDayBook" wx:key="index" data-index="{{index}}"  wx:for='{{dateList}}'>
+            <view>{{item.weekDay}}</view>
+            <view>{{item.dateString}}</view>
+            <view class="sdcWrapper" wx:key="index" data-index="{{index}}"  wx:for='{{item.periodList}}'>
+                <view class="sdTime">{{item.startTime}}</view>
+                <view class='sdDevider'>-</view>
+                <view class="sdTime">{{item.endTime}}</view>
             </view>
         </view>
     </view>

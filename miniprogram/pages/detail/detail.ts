@@ -6,11 +6,58 @@ const db = wx.cloud.database({
 const _ = db.command;
 import { getYMD } from '../../utils/util';
 
+const weekDayWord = ['日', '一', '二', '三', '四', '五', '六'];
+
+function getDateList(list: Array<any>) {
+  const now = new Date();
+  const weekDay = now.getDay();
+  const nowTime = now.getTime();
+
+  return new Array(7).fill('').map((_, index) => {
+    const stamp = nowTime + 24 * 60 * 60 * 1000 * index;
+    return {
+      date: stamp,
+      dateString: (new Date(stamp)).getDate().toString(),
+      weekDay: '周' + weekDayWord[(index + weekDay) % 7],
+      periodList: list.filter(item => item.date === getYMD(new Date(stamp)))
+    }
+  })
+}
+
+async function prepareData(route: string, setFunc: Function) {
+  const res = await db.collection('period').where({
+    counselorId: route,
+    date: _.gte(getYMD(new Date())),
+    status: 'on'
+  }).orderBy('date', 'asc').limit(7).get();
+  const timeList = res.data.map(item => {
+    const { date, startTime, endTime, counselorId, _id, count } = item;
+    return {
+      date,
+      startTime,
+      endTime,
+      time: startTime + '--' + endTime,
+      counselorId,
+      count,
+      _id
+    }
+  }) as Array<any>
+  console.log(getDateList(timeList));
+  setFunc({
+    dateList: getDateList(timeList),
+    timeList: timeList
+  })
+}
+
+const dullTimeObj = { date: '', time: '', startTime: '', endTime: '', _id: '', counselorId: ''};
+
 Page({
     data: {
         counselor: '',
         heighLightIndex: 1000,
-        timeList: [{ date: '', time: '', _id: '', counselorId: ''}],
+        timeList: [dullTimeObj],
+
+        dateList: [{ date: 0, dateString: '', weekDay: '', periodList: [dullTimeObj]}],
 
         userInfo: {},
         hasUserInfo: false,
@@ -34,11 +81,11 @@ Page({
           }
         ]
     },
-    check(event: DomEvent) {
-        this.setData({
-            heighLightIndex: event.currentTarget.dataset.index
-        })
-    },
+  check(event: DomEvent) {
+      this.setData({
+          heighLightIndex: event.currentTarget.dataset.index
+      })
+  },
       // 事件处理函数
   bindViewTap() {
     wx.navigateTo({
@@ -58,24 +105,7 @@ Page({
     this.setData({
         counselor: route
     });
-    db.collection('period').where({
-      counselorId: route,
-      date: _.gte(getYMD(new Date())),
-      status: 'on'
-    }).orderBy('date', 'asc').limit(7).get().then(res => {
-      this.setData({
-        timeList: res.data.map(item => {
-          const { date, startTime, endTime, counselorId, _id, count } = item;
-          return {
-            date,
-            time: startTime + '--' + endTime,
-            counselorId,
-            count,
-            _id
-          }
-        }) as Array<any>
-      });
-    });
+    prepareData(route, this.setData.bind(this));
   },
   getUserInfo(e: any) {
     app.globalData.userInfo = e.detail.userInfo
