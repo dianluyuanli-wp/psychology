@@ -1,8 +1,24 @@
 const app = getApp<IAppOption>();
 
-// const db = wx.cloud.database({
-//   env: 'test-psy-qktuk'
-// });
+const db = wx.cloud.database({
+  env: 'test-psy-qktuk'
+});
+//  const _ = db.command;
+
+async function prepareData(setFunc: Function) {
+  const res = await db.collection('userDetail').limit(6).get();
+  const counselorList = res.data.map(item => {
+    const { avatar, name, userInfo } = item;
+    return {
+      name,
+      detail: userInfo,
+      img: avatar
+    }
+  }) as Array<any>;
+  setFunc({
+    couList: counselorList
+  })
+}
 
 Page({
     // onShareAppMessage() {
@@ -35,7 +51,6 @@ Page({
     },
 
     onLoad() {
-      console.log('index');
       if (app.globalData.userInfo) {
         this.setData({
           userInfo: app.globalData.userInfo,
@@ -62,6 +77,7 @@ Page({
           },
         })
       }
+      prepareData(this.setData.bind(this));
     },
 
     content(event: DomEvent) {

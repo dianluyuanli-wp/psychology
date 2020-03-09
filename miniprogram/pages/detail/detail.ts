@@ -12,13 +12,12 @@ function getDateList(list: Array<any>) {
   const now = new Date();
   const weekDay = now.getDay();
   const nowTime = now.getTime();
-
   return new Array(7).fill('').map((_, index) => {
-    const stamp = nowTime + 24 * 60 * 60 * 1000 * index;
+    const stamp = nowTime + 24 * 60 * 60 * 1000 * (index + 1);
     return {
       date: stamp,
       dateString: (new Date(stamp)).getDate().toString(),
-      weekDay: '周' + weekDayWord[(index + weekDay) % 7],
+      weekDay: '周' + weekDayWord[(index + weekDay + 1) % 7],
       periodList: list.filter(item => item.date === getYMD(new Date(stamp)))
     }
   })
@@ -27,9 +26,9 @@ function getDateList(list: Array<any>) {
 async function prepareData(route: string, setFunc: Function) {
   const res = await db.collection('period').where({
     counselorId: route,
-    date: _.gte(getYMD(new Date())),
+    date: _.gt(getYMD(new Date())),
     status: 'on'
-  }).orderBy('date', 'asc').limit(7).get();
+  }).orderBy('date', 'asc').limit(28).get();
   const timeList = res.data.map(item => {
     const { date, startTime, endTime, counselorId, _id, count } = item;
     return {
@@ -42,7 +41,6 @@ async function prepareData(route: string, setFunc: Function) {
       _id
     }
   }) as Array<any>
-  console.log(getDateList(timeList));
   setFunc({
     dateList: getDateList(timeList),
     timeList: timeList
@@ -54,7 +52,7 @@ const dullTimeObj = { date: '', time: '', startTime: '', endTime: '', _id: '', c
 Page({
     data: {
         counselor: '',
-        heighLightIndex: 1000,
+        heightListhId: '',
         timeList: [dullTimeObj],
 
         dateList: [{ date: 0, dateString: '', weekDay: '', periodList: [dullTimeObj]}],
@@ -81,12 +79,7 @@ Page({
           }
         ]
     },
-  check(event: DomEvent) {
-      this.setData({
-          heighLightIndex: event.currentTarget.dataset.index
-      })
-  },
-      // 事件处理函数
+  // 事件处理函数
   bindViewTap() {
     wx.navigateTo({
       url: '../logs/logs',
@@ -138,8 +131,10 @@ Page({
           [`formData.time`]: e.detail.value
       })
   },
-  checkfy() {
-
+  itemClick(event: DomEvent) {
+    this.setData({
+      heightListhId: event.currentTarget.dataset.id
+  })
   },
   submitForm() {
       this.selectComponent('#form').validate(async (valid: boolean, errors: Array<validateInfo>) => {
@@ -152,7 +147,7 @@ Page({
               }
           } else {
               //    预约时段必选
-              if (this.data.heighLightIndex === 1000) {
+              if (this.data.heightListhId === '') {
                 this.setData({
                     error: '请选择预约时段'
                 })
@@ -161,7 +156,7 @@ Page({
               const defaultInfo = {
                 saySome: 'nothing'
               };
-              const { date, time, _id, counselorId } = this.data.timeList[this.data.heighLightIndex];
+              const { date, time, _id, counselorId } = this.data.timeList.find(item => item._id === this.data.heightListhId) || dullTimeObj;
               //    避免重复预约
               const res = await db.collection('period').where({
                 _id,

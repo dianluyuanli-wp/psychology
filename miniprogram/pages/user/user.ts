@@ -10,7 +10,8 @@ const db = wx.cloud.database({
 
 Page({
   data: {
-    orderList: [{date: '', time: '', status: '', counselorName: '', counselorId: '', _id: ''}]
+    orderList: [{date: '', time: '', status: '', counselorName: '', counselorId: '', _id: ''}],
+    counselorList: []
   },
   cancel(event: DomEvent) {
     const { id, index } = event.currentTarget.dataset;
@@ -24,22 +25,23 @@ Page({
     })
   },
   async loadData() {
-    db.collection('interviewee').where({
+    const res = await db.collection('interviewee').where({
       openId: app.globalData.openId,
-    }).orderBy('formData.date', 'desc').limit(10).get().then(res => {
-      this.setData({
-        orderList: res.data.map(item => {
-          const { status, formData, counselorId, _id, counselorName } = item;
-          return {
-            date: formData.date,
-            time: formData.time,
-            counselorId,
-            status,
-            _id,
-            counselorName,
-          }
-        }) as Array<any>
-      });
+    }).orderBy('formData.date', 'desc').limit(10).get();
+    const orderList = res.data.map(item => {
+      const { status, formData, counselorId, _id, counselorName } = item;
+      return {
+        date: formData.date,
+        time: formData.time,
+        counselorId,
+        status,
+        _id,
+        counselorName,
+      }
+    }) as Array<any>;
+    const counselorList = orderList.map(item => item.counselorId);
+    this.setData({
+      orderList
     });
   },
   async onPullDownRefresh() {

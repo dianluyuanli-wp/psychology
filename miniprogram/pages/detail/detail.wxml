@@ -1,5 +1,5 @@
 <view >
-    <view >目标咨询师：{{counselor}}</view>
+    <view class="openTime">目标咨询师：{{counselor}}</view>
     <!-- <view class="de-wrapper">
         <view wx:key="index" class="con-flex {{index === heighLightIndex ? 'heighLight' : ''}} {{item.count === 1 ? '' : 'canNotBook'}}" data-index="{{index}}" bindtap="check" wx:for='{{timeList}}'>
             <view class="p-wrapper">
@@ -14,7 +14,7 @@
         <view class="singDayBook" wx:key="index" data-index="{{index}}"  wx:for='{{dateList}}'>
             <view>{{item.weekDay}}</view>
             <view>{{item.dateString}}</view>
-            <view class="sdcWrapper" wx:key="index" data-index="{{index}}"  wx:for='{{item.periodList}}'>
+            <view class="sdcWrapper  {{ item._id === heightListhId ? 'sdcHeightWra' : ''}} {{item.count === 1 ? '' : 'canNotBook'}}" wx:key="index" data-id="{{item._id}}" bindtap="itemClick" data-index="{{index}}"  wx:for='{{item.periodList}}'>
                 <view class="sdTime">{{item.startTime}}</view>
                 <view class='sdDevider'>-</view>
                 <view class="sdTime">{{item.endTime}}</view>

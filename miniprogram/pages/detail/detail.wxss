@@ -19,7 +19,8 @@
 }
 
 .canNotBook {
-    background-color: gray;
+    background-color: gray !important;
+    border: none !important;
 }
 
 .p-wrapper {
@@ -52,6 +53,11 @@
     border-radius: 20rpx;
     border: 1rpx solid rgb(0, 190, 10);
     background-color: rgba(0, 190, 10, 0.2);
+    margin-bottom: 10rpx;
+}
+
+.sdcHeightWra {
+    background-color: wheat;
 }
 
 .sdDevider {
