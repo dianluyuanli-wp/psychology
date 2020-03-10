@@ -39,7 +39,13 @@ Page({
         counselorName,
       }
     }) as Array<any>;
-    const counselorList = orderList.map(item => item.counselorId);
+    const counselorList = [...new Set(orderList.map(item => item.counselorId))];
+    const cRes = await db.collection('userDetail').where({
+      name: db.RegExp({
+        regexp: counselorList.join('|')
+      })
+    }).get();
+    console.log(cRes, 'result');
     this.setData({
       orderList
     });

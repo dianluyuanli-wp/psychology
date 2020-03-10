@@ -16,6 +16,7 @@
     "noUnusedParameters": true,
     "strict": true,
     "removeComments": true,
+    "downlevelIteration": true,
     "pretty": true,
     "strictPropertyInitialization": true,
     "lib": ["es5", "ES2015", "es2017"],
