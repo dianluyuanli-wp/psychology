@@ -13,7 +13,13 @@
 
 .contentList {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
   /* align-items: center; */
+}
+
+.cl-img {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
 }

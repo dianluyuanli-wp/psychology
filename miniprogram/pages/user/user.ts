@@ -10,8 +10,8 @@ const db = wx.cloud.database({
 
 Page({
   data: {
-    orderList: [{date: '', time: '', status: '', counselorName: '', counselorId: '', _id: ''}],
-    counselorList: []
+    orderList: [{date: '', time: '', status: '', counselorName: '', counselorId: '', _id: '', counselorAvatar: ''}],
+    counselorList: [{ name: '', avatar: ''}]
   },
   cancel(event: DomEvent) {
     const { id, index } = event.currentTarget.dataset;
@@ -28,6 +28,18 @@ Page({
     const res = await db.collection('interviewee').where({
       openId: app.globalData.openId,
     }).orderBy('formData.date', 'desc').limit(10).get();
+
+    const counselorList = [...new Set(res.data.map(item => item.counselorId))];
+    const cRes = await db.collection('userDetail').where({
+      name: db.RegExp({
+        regexp: counselorList.join('|')
+      })
+    }).get();
+    const counselorInfoList = cRes.data.map(item => ({
+      name: item.name,
+      avatar: item.avatar
+    }))
+
     const orderList = res.data.map(item => {
       const { status, formData, counselorId, _id, counselorName } = item;
       return {
@@ -37,17 +49,13 @@ Page({
         status,
         _id,
         counselorName,
+        counselorAvatar: counselorInfoList.find(item => item.name === counselorName)?.avatar
       }
     }) as Array<any>;
-    const counselorList = [...new Set(orderList.map(item => item.counselorId))];
-    const cRes = await db.collection('userDetail').where({
-      name: db.RegExp({
-        regexp: counselorList.join('|')
-      })
-    }).get();
-    console.log(cRes, 'result');
+
     this.setData({
-      orderList
+      orderList,
+      counselorList: counselorInfoList
     });
   },
   async onPullDownRefresh() {
