@@ -1,21 +1,17 @@
 <!--index.wxml-->
+<wxs module="utils" src="./utils.wxs"/>
 <view class="container">
-    <view class="tabTitle">
-      <view class='tabCon'>咨询师</view>
-      <view class='tabCon'>日期</view>
-      <view class='tabCon'>时间</view>
-      <view class='tabCon'>状态</view>
-      <view class='tabCon'>操作</view>
-    </view>
-    <view>我的预约</view>
+    <view class="title">我的预约</view>
     <view class="contentWrapper">
         <view class='contentList' wx:key="index" data-name="wangpei" wx:for='{{orderList}}'>
             <image src="{{item.counselorAvatar}}" class="cl-img" />
-            <view>
-                <view class='item-content'>咨询师:{{item.counselorName}}</view>
-                <view class='item-content'>资讯时段:{{item.date + ' ' + item.time}}</view>
-                <view class='item-content-last'>预约状态: {{item.status}}</view>
-                <view class="item" bindtap="cancel" data-id="{{item._id}}" data-index="{{index}}">取消</view>
+            <view class="content-wrapper">
+                <view class='item-counselor'>咨询师: {{item.counselorName}}</view>
+                <view class='item-period'>咨询时段: {{item.date + ' ' + item.time}}</view>
+                <view class="item-actionArea">
+                    <view class='item-content-last'>{{utils.getStatus(item.status)}}</view>
+                    <view wx:if="{{utils.showBtn(item.status)}}" class="item-btn" bindtap="cancel" data-id="{{item._id}}" data-index="{{index}}">取消</view>
+                </view>
             </view>
         </view>
     </view>

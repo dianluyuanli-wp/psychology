@@ -1,0 +1,17 @@
+function getStatus(status) {
+    var infoMap = {
+        accept: '已确认',
+        deny: '被拒绝',
+        apply: '申请中',
+        cancel: '已取消'
+    }
+    return infoMap[status];
+}
+
+function showBtn(status) {
+    var array = ['apply', 'accept'];
+    return array.indexOf(status) !== -1;
+}
+
+module.exports.getStatus = getStatus;
+module.exports.showBtn = showBtn;

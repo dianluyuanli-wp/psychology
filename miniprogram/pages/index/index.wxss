@@ -59,5 +59,4 @@
     -webkit-line-clamp: 4;
     font-size: 25rpx;
     color: rgb(97, 98, 103);
-
 }

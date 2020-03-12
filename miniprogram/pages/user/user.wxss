@@ -13,7 +13,8 @@
 
 .contentList {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
+  align-items: center;
   width: 100%;
   /* align-items: center; */
 }
@@ -21,5 +22,45 @@
 .cl-img {
   width: 150rpx;
   height: 150rpx;
+  margin: 15rpx 0;
   border-radius: 50%;
+}
+
+.contentList {
+  width: 700rpx;
+  margin: 0 auto;
+  margin-bottom: 25rpx;
+  background-color: rgb(247, 247, 247);
+  border-radius: 30rpx;
+}
+
+.item-counselor {
+  font-size: 30rpx;
+}
+
+.item-period {
+  font-size: 20rpx;
+  color: rgb(97, 98, 103);
+}
+
+.content-wrapper {
+  width: 500rpx;
+}
+
+.item-actionArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-btn {
+  background-color: red;
+  color: white;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  border-radius: 15rpx;
+}
+
+.title {
+  font-size: 40rpx;
 }
