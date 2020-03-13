@@ -108,6 +108,15 @@ Page({
       this.setData({
         duration: e.detail.value
       })
+    },
+
+    subscribe() {
+      wx.requestSubscribeMessage({
+        tmplIds: ['TsHTB3iCONjwJijrDPLH2dMMx5BBislqnNJFx2d0Qz0'],
+        success () { 
+          console.log('success!')
+        }
+      })
     }
   })
 

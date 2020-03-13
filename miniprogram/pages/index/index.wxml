@@ -21,5 +21,6 @@
           </view>
         </view>
     </view>
+    <view class='subscribe-btn' bindtap="subscribe">订阅</view>
   </view>
 </view>
