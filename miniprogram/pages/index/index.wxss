@@ -60,8 +60,3 @@
     font-size: 25rpx;
     color: rgb(97, 98, 103);
 }
-
-.subscribe-btn {
-    width: 100rpx;
-    height: 100rpx;
-}

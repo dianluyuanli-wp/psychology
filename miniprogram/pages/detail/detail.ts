@@ -47,6 +47,13 @@ async function prepareData(route: string, setFunc: Function) {
   })
 }
 
+//  一次性消息订阅
+function subscribeMes() {
+  wx.requestSubscribeMessage({
+    tmplIds: ['TsHTB3iCONjwJijrDPLH2eQUq3QmxPk5iNfFiRcZU3M'],
+  })
+}
+
 const dullTimeObj = { date: '', time: '', startTime: '', endTime: '', _id: '', counselorId: ''};
 
 Page({
@@ -183,6 +190,7 @@ Page({
               wx.showToast({
                 title: '提交成功'
               });
+              subscribeMes();
           }
       })
   }
