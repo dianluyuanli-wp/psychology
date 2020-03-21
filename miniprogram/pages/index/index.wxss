@@ -17,6 +17,7 @@
 
 .cl-single-wrapper {
     margin-left: 15rpx;
+    position: relative;
 }
 
 .cl-img {
@@ -37,6 +38,16 @@
 
 .font-item {
     padding-left: 15rpx;
+    margin-top: 5rpx;
+}
+
+.bottom-border {
+    width: 700rpx;
+    height: 2rpx;
+    position: absolute;
+    background-color: lavender;
+    bottom: -15rpx;
+    left: -150rpx;
 }
 
 .sw-img {

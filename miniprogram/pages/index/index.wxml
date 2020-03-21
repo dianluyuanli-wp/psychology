@@ -18,6 +18,7 @@
           <view class='cl-single-wrapper'>
             <view class='cl-name'>{{item.name}}</view>
             <view class='cl-item-content'>{{item.detail}}</view>
+            <view class="bottom-border"/>
           </view>
         </view>
     </view>

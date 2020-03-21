@@ -1,0 +1,4 @@
+<view class="container">
+    <view>大家好</view>
+    <view>{{text}}</view>
+</view>

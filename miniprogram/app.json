@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/user/user",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/info/info"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -18,6 +19,9 @@
       "pagePath": "pages/index/index",
       "text": "咨询"
     }, {
+      "pagePath": "pages/info/info",
+      "text": "信息"
+    },{
       "pagePath": "pages/user/user",
       "text": "我的"
     }]

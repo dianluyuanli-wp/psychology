@@ -1,7 +1,8 @@
 // app.ts
+
 App<IAppOption>({
   globalData: {},
-  onLaunch() {
+  async onLaunch() {
     //  云函数初始化
     wx.cloud.init({
       env: 'test-psy-qktuk'
@@ -26,11 +27,12 @@ App<IAppOption>({
 
     // 登录
     wx.login({
-      success: res => {
-        console.log(res.code, res, '登录');
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      },
+      // success: res => {
+      //   //  console.log(res.code, res, '登录');
+      //   // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      // },
     })
+
     // 获取用户信息
     wx.getSetting({
       success: res => {

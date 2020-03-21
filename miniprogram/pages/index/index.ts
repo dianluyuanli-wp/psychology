@@ -3,10 +3,10 @@ const app = getApp<IAppOption>();
 const db = wx.cloud.database({
   env: 'test-psy-qktuk'
 });
-//  const _ = db.command;
 
 async function prepareData(setFunc: Function) {
-  const res = await db.collection('userDetail').limit(6).get();
+  //  拉取咨询师详情
+  const res = await db.collection('userDetail').where({ identity: 'counselor' }).limit(6).get();
   const counselorList = res.data.map(item => {
     const { avatar, name, userInfo } = item;
     return {
@@ -15,34 +15,28 @@ async function prepareData(setFunc: Function) {
       img: avatar
     }
   }) as Array<any>;
+
   setFunc({
     couList: counselorList
   })
 }
 
-Page({
-    // onShareAppMessage() {
-    //   return {
-    //     title: 'swiper',
-    //     path: 'page/component/pages/swiper/swiper'
-    //   }
-    // },
-  
+async function getPageInfo(setFunc: Function) {
+  const res = await db.collection('pageInfo').get();
+  const { _id, ...rest } = res.data[0];
+  setFunc({
+    background: rest.imgList.map((item: { url: string }) => ({ src: item.url }))
+  })
+  const pageInfo = rest as PageInfoObj;
+  console.log(pageInfo);
+  app.globalData.pageInfo = pageInfo;
+}
+
+Page({  
     data: {
       canIUse: wx.canIUse('button.open-type.getUserInfo'),
-      background: [{ src: 'http://cms-bucket.ws.126.net/2020/0123/564125bej00q4jo8e002tc000go008cc.jpg?imageView&thumbnail=600y300'},
-        { src: 'http://cms-bucket.ws.126.net/2020/0119/f543f553j00q4cbge002uc000go008cc.jpg?imageView&thumbnail=600y300'}, {
-          src: 'http://cms-bucket.ws.126.net/2020/0123/f25d19daj00q4ji4k001uc000go008cc.jpg?imageView&thumbnail=600y300'
-        }],
-      couList: [{
-        name: 'wang',
-        detail: '钟南山，男，汉族，福建厦门人，1936年10月出生于南京，中共党员，中国工程院院士，著名呼吸病学专家，中国抗击非典型肺炎的领军人物，曾任广州医学院院长、党委书记，广州市呼吸疾病研究所所长、广州呼吸疾病国家重点实验室主任、中华医学会会长。钟南山出生于医学世家；1958年8月，在第一届全运会的比赛测验中，钟南山以54秒2的成绩，打破了当时54秒6的400米栏全国纪录。1960年毕业于北京医学院（今北京大学医学部）；2007年获英国爱丁堡大学荣誉博士；2007年10月任呼吸疾病国家重点实验室主任；2014年获香港中文大学荣誉理学博士',
-        img: 'https://bkimg.cdn.bcebos.com/pic/77094b36acaf2edd6474ddbc821001e9380193da?x-bce-process=image/resize,m_fill,w_360,h_280,align_50'
-      }, {
-        name: 'zhang',
-        detail: '我也不知道该怎么变了',
-        img: 'https://bkimg.cdn.bcebos.com/pic/1c950a7b02087bf4e7c348e5fed3572c11dfcf8b?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1'
-      }],
+      background: [],
+      couList: [],
       indicatorDots: true,
       vertical: false,
       autoplay: false,
@@ -50,7 +44,7 @@ Page({
       duration: 500
     },
 
-    onLoad() {
+    async onLoad() {
       if (app.globalData.userInfo) {
         this.setData({
           userInfo: app.globalData.userInfo,
@@ -77,7 +71,9 @@ Page({
           },
         })
       }
-      prepareData(this.setData.bind(this));
+      //  数据准备
+      await Promise.all([getPageInfo(this.setData.bind(this)), prepareData(this.setData.bind(this))]);
+      //  await prepareData(this.setData.bind(this));
     },
 
     content(event: DomEvent) {
