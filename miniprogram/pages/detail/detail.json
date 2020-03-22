@@ -1,3 +1,5 @@
 {
-    "usingComponents": {}
+  "usingComponents": {
+    "mp-halfScreenDialog": "../../miniprogram_dist/half-screen-dialog/half-screen-dialog"
   }
+}

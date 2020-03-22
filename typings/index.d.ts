@@ -4,7 +4,8 @@ interface IAppOption {
   globalData: {
     userInfo?: WechatMiniprogram.UserInfo,
     openId?: string,
-    pageInfo?: PageInfoObj
+    pageInfo?: PageInfoObj,
+    couList?: Array<singleCounInfo>
   }
   userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
 }
@@ -19,4 +20,10 @@ interface singleImg {
   name: string, 
   type: string, 
   url: string
+}
+
+interface singleCounInfo {
+  name: string,
+  detail: string,
+  img: string
 }

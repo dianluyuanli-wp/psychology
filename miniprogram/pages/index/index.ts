@@ -19,6 +19,7 @@ async function prepareData(setFunc: Function) {
   setFunc({
     couList: counselorList
   })
+  app.globalData.couList = counselorList;
 }
 
 async function getPageInfo(setFunc: Function) {

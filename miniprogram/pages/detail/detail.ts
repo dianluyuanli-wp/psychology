@@ -84,12 +84,19 @@ Page({
             name: 'mobile',
             rules: [{required: true, message: 'mobile必填'}, {mobile: true, message: 'mobile格式不对'}],
           }
-        ]
+        ],
+        show: false,
+        counselorInfo: {}
     },
   // 事件处理函数
   bindViewTap() {
     wx.navigateTo({
       url: '../logs/logs',
+    })
+  },
+  open: function () {
+    this.setData({
+        show: true
     })
   },
   onLoad() {
@@ -103,7 +110,8 @@ Page({
     // 获取当前页面的路由
     let route = currPage?.options.name;
     this.setData({
-        counselor: route
+        counselor: route,
+        counselorInfo: app.globalData.couList?.find(({ name }) => name === route)
     });
     prepareData(route, this.setData.bind(this));
   },

@@ -71,3 +71,12 @@
     font-weight: bold;
     padding-left: 40rpx;
 }
+
+.d-input-container {
+    text-align: left;
+}
+
+.detail {
+    margin: 15rpx 20rpx;
+    text-indent: 60rpx;
+}
