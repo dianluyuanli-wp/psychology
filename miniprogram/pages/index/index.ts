@@ -28,7 +28,6 @@ async function getPageInfo(setFunc: Function) {
     background: rest.imgList.map((item: { url: string }) => ({ src: item.url }))
   })
   const pageInfo = rest as PageInfoObj;
-  console.log(pageInfo);
   app.globalData.pageInfo = pageInfo;
 }
 
@@ -73,7 +72,6 @@ Page({
       }
       //  数据准备
       await Promise.all([getPageInfo(this.setData.bind(this)), prepareData(this.setData.bind(this))]);
-      //  await prepareData(this.setData.bind(this));
     },
 
     content(event: DomEvent) {
