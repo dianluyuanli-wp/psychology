@@ -13,6 +13,33 @@
             </view>
         </view>
     </view>
+        <view slot="footer" class="container d-input-container">
+            <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+            <view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+                <view class="page__bd">
+                    <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+                        <mp-cells title="表单">
+                            <mp-cell prop="mobile" title="手机号" ext-class=" weui-cell_vcode">
+                                <input bindinput="formInputChange" data-field="mobile" class="weui-input" placeholder="请输入手机号"/>
+                            </mp-cell>
+                        </mp-cells>
+                    </mp-form>
+
+                    <view class="weui-cells__title">想对我说点什么</view>
+                    <view class="weui-cells weui-cells_after-title">
+                        <view class="weui-cell">
+                            <view class="weui-cell__bd">
+                                <textarea class="weui-textarea" bindinput="bindTextChange" data-field="saySome" maxlength="200" placeholder="请输入文本" style="height: 4.3em" />
+                                <view class="weui-textarea-counter">{{saySome.length}}/200</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="weui-btn-area">
+                        <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+                    </view>
+                </view>
+            </view>
+        </view>
     <mp-halfScreenDialog
         bindbuttontap="buttontap"
         show="{{show}}"
@@ -47,5 +74,4 @@
             </view>
         </view>
     </mp-halfScreenDialog>
-    <button class="weui-btn" type="primary" bindtap="open">Open</button>
 </view>

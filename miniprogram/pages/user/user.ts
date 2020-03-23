@@ -14,12 +14,21 @@ Page({
     counselorList: [{ name: '', avatar: ''}]
   },
   cancel(event: DomEvent) {
-    const { id, index } = event.currentTarget.dataset;
+    const { id, index, periodid, status } = event.currentTarget.dataset;
+    //  修改状态
     db.collection('interviewee').doc(id).update({
       data: {
         status: 'cancel'
       }
     });
+    //  如果已确认，恢复库存
+    if (status === 'accept') {
+      db.collection('period').doc(periodid).update({
+        data: {
+          count: 1
+        }
+      });
+    }
     this.setData({
       ['orderList[' + index + '].status']: 'cancel'
     })
@@ -41,17 +50,19 @@ Page({
     }))
 
     const orderList = res.data.map(item => {
-      const { status, formData, counselorId, _id, counselorName } = item;
+      const { status, formData, counselorId, _id, counselorName, periodId } = item;
       return {
         date: formData.date,
         time: formData.time,
         counselorId,
         status,
         _id,
+        periodId,
         counselorName,
         counselorAvatar: counselorInfoList.find(item => item.name === counselorName)?.avatar
       }
     }) as Array<any>;
+    console.log(orderList);
 
     this.setData({
       orderList,

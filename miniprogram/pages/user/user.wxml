@@ -10,7 +10,7 @@
                 <view class='item-period'>咨询时段: {{item.date + ' ' + item.time}}</view>
                 <view class="item-actionArea">
                     <view class='item-content-last'>{{utils.getStatus(item.status)}}</view>
-                    <view wx:if="{{utils.showBtn(item.status)}}" class="item-btn" bindtap="cancel" data-id="{{item._id}}" data-index="{{index}}">取消</view>
+                    <view wx:if="{{utils.showBtn(item.status)}}" class="item-btn" bindtap="cancel" data-id="{{item._id}}" data-index="{{index}}" data-periodid="{{item.periodId}}" data-status="{{item.status}}">取消</view>
                 </view>
             </view>
         </view>

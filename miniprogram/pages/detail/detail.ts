@@ -52,6 +52,7 @@ function subscribeMes() {
   wx.requestSubscribeMessage({
     tmplIds: ['TsHTB3iCONjwJijrDPLH2eQUq3QmxPk5iNfFiRcZU3M'],
   })
+  console.log('月月')
 }
 
 const dullTimeObj = { date: '', time: '', startTime: '', endTime: '', _id: '', counselorId: ''};
@@ -92,11 +93,6 @@ Page({
   bindViewTap() {
     wx.navigateTo({
       url: '../logs/logs',
-    })
-  },
-  open: function () {
-    this.setData({
-        show: true
     })
   },
   onLoad() {
@@ -148,8 +144,9 @@ Page({
   },
   itemClick(event: DomEvent) {
     this.setData({
-      heightListhId: event.currentTarget.dataset.id
-  })
+      heightListhId: event.currentTarget.dataset.id,
+      show: true
+    })
   },
   submitForm() {
       this.selectComponent('#form').validate(async (valid: boolean, errors: Array<validateInfo>) => {
@@ -194,10 +191,10 @@ Page({
                   periodId: _id
                 }
               });
-              await db.collection('period').doc(_id).update({ data: { count: 0 }});
               wx.showToast({
                 title: '提交成功'
               });
+              console.log('预定');
               subscribeMes();
           }
       })
