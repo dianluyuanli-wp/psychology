@@ -52,7 +52,6 @@ function subscribeMes() {
   wx.requestSubscribeMessage({
     tmplIds: ['TsHTB3iCONjwJijrDPLH2eQUq3QmxPk5iNfFiRcZU3M'],
   })
-  console.log('月月')
 }
 
 const dullTimeObj = { date: '', time: '', startTime: '', endTime: '', _id: '', counselorId: ''};
@@ -149,53 +148,56 @@ Page({
     })
   },
   submitForm() {
+      //  这个订阅放在里面貌似无法触发
+      subscribeMes();
       this.selectComponent('#form').validate(async (valid: boolean, errors: Array<validateInfo>) => {
-          if (!valid) {
-            const firstError = Object.keys(errors);
-              if (firstError.length) {
-                  this.setData({
-                      error: errors[parseInt(firstError[0])].message
-                  })
-              }
-          } else {
-              //    预约时段必选
-              if (this.data.heightListhId === '') {
+        if (!valid) {
+          const firstError = Object.keys(errors);
+            if (firstError.length) {
                 this.setData({
-                    error: '请选择预约时段'
+                    error: errors[parseInt(firstError[0])].message
                 })
-                return;
+            }
+        } else {
+            //    预约时段必选
+            if (this.data.heightListhId === '') {
+              this.setData({
+                  error: '请选择预约时段'
+              })
+              return;
+            }
+            const defaultInfo = {
+              saySome: 'nothing'
+            };
+            const { date, time, _id, counselorId } = this.data.timeList.find(item => item._id === this.data.heightListhId) || dullTimeObj;
+            //    避免重复预约
+            const res = await db.collection('period').where({
+              _id,
+              count: 1
+            }).count();
+            if (res.total === 0) {
+              this.setData({
+                  error: '该时段不可预约'
+              })
+              return;
+            }
+            await db.collection('interviewee').add({
+              data: {
+                formData: Object.assign(defaultInfo, this.data.formData, { date, time }),
+                userInfo: app.globalData.userInfo,
+                openId: app.globalData.openId,
+                status: 'apply',
+                counselorName: this.data.counselor,
+                counselorId: counselorId,
+                periodId: _id
               }
-              const defaultInfo = {
-                saySome: 'nothing'
-              };
-              const { date, time, _id, counselorId } = this.data.timeList.find(item => item._id === this.data.heightListhId) || dullTimeObj;
-              //    避免重复预约
-              const res = await db.collection('period').where({
-                _id,
-                count: 1
-              }).count();
-              if (res.total === 0) {
-                this.setData({
-                    error: '该时段不可预约'
-                })
-                return;
-              }
-              await db.collection('interviewee').add({
-                data: {
-                  formData: Object.assign(defaultInfo, this.data.formData, { date, time }),
-                  userInfo: app.globalData.userInfo,
-                  openId: app.globalData.openId,
-                  status: 'apply',
-                  counselorName: this.data.counselor,
-                  counselorId: counselorId,
-                  periodId: _id
-                }
-              });
-              wx.showToast({
-                title: '提交成功'
-              });
-              console.log('预定');
-              subscribeMes();
+            });
+            wx.showToast({
+              title: '提交成功'
+            });
+            this.setData({
+              show: false
+            })
           }
       })
   }

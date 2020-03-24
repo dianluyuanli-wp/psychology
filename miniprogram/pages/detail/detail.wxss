@@ -80,3 +80,11 @@
     margin: 15rpx 20rpx;
     text-indent: 60rpx;
 }
+
+.cl-img {
+    width: 250rpx;
+    height: 250rpx;
+    border-radius: 50%;
+    margin-left: 250rpx;
+    margin-top: 20rpx;
+}
