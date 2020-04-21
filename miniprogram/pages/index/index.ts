@@ -7,7 +7,7 @@ const db = wx.cloud.database({
 async function prepareData(setFunc: Function) {
   //  拉取咨询师详情
   const res = await db.collection('userDetail').where({ identity: 'counselor' }).limit(6).get();
-  const counselorList = res.data.map(item => {
+  const counselorList = res.data.filter(item => !item.isFreezed).map(item => {
     const { avatar, name, userInfo } = item;
     return {
       name,

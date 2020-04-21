@@ -62,7 +62,8 @@ Page({
         heightListhId: '',
         timeList: [dullTimeObj],
 
-        dateList: [{ date: 0, dateString: '', weekDay: '', periodList: [dullTimeObj]}],
+        //  dateList: [{ date: 0, dateString: '', weekDay: '', periodList: [dullTimeObj]}],
+        dateList: [],
 
         userInfo: {},
         hasUserInfo: false,
